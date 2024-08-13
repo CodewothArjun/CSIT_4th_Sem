@@ -1,0 +1,532 @@
+
+Setting environment for using XAMPP for Windows.
+yogaraj.joshi@YOGACDSC c:\xampp
+# mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 18
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| dbms_lab           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| seca               |
+| secb               |
+| test               |
++--------------------+
+9 rows in set (0.027 sec)
+
+MariaDB [(none)]> use seca
+Database changed
+MariaDB [seca]> show tables;
++----------------+
+| Tables_in_seca |
++----------------+
+| department     |
+| emp            |
+| student        |
++----------------+
+3 rows in set (0.011 sec)
+
+MariaDB [seca]> select * from emp;
++-----+--------+------------+---------+--------+------+------------+
+| ssn | name   | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+--------+------------+---------+--------+------+------------+
+|   1 | HARI   | 2024-08-09 | 2000.00 |   NULL |    1 |          0 |
+|   2 | RAM    | 2024-08-09 | 1000.00 |      1 |    1 |          0 |
+|   3 | Shyam  | 2024-08-09 | 3000.00 |      2 |    2 |          0 |
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 |    3 |          0 |
+|   5 | Ashok  | 2024-08-09 | 1000.00 |      1 |    5 |          0 |
++-----+--------+------------+---------+--------+------+------------+
+5 rows in set (0.017 sec)
+
+MariaDB [seca]> insert into emp(name,salary,dno) values ('HARI',40000,2);
+Query OK, 1 row affected, 2 warnings (0.019 sec)
+
+MariaDB [seca]> insert into emp(name,salary,dno) values ('Shyam',30000,1);
+Query OK, 1 row affected, 2 warnings (0.012 sec)
+
+MariaDB [seca]> insert into emp(name,salary,dno) values ('Vibek',30000,2);
+Query OK, 1 row affected, 2 warnings (0.002 sec)
+
+MariaDB [seca]> select * from emp;
++-----+--------+------------+---------+--------+------+------------+
+| ssn | name   | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+--------+------------+---------+--------+------+------------+
+|   1 | HARI   | 2024-08-09 | 2000.00 |   NULL |    1 |          0 |
+|   2 | RAM    | 2024-08-09 | 1000.00 |      1 |    1 |          0 |
+|   3 | Shyam  | 2024-08-09 | 3000.00 |      2 |    2 |          0 |
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 |    3 |          0 |
+|   5 | Ashok  | 2024-08-09 | 1000.00 |      1 |    5 |          0 |
+|   6 | HARI   | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
+|   7 | Shyam  | 2024-08-12 | 9999.99 |   NULL |    1 |          0 |
+|   8 | Vibek  | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
++-----+--------+------------+---------+--------+------+------------+
+8 rows in set (0.011 sec)
+
+MariaDB [seca]> select name , dno from emp where dno=1;
++-------+------+
+| name  | dno  |
++-------+------+
+| HARI  |    1 |
+| RAM   |    1 |
+| Shyam |    1 |
++-------+------+
+3 rows in set (0.015 sec)
+
+MariaDB [seca]> select name , dno from emp where dno=2;
++-------+------+
+| name  | dno  |
++-------+------+
+| Shyam |    2 |
+| HARI  |    2 |
+| Vibek |    2 |
++-------+------+
+3 rows in set (0.001 sec)
+
+MariaDB [seca]> select name , dno from emp where dno=2 union select name,dno from emp where dno=1;
++-------+------+
+| name  | dno  |
++-------+------+
+| Shyam |    2 |
+| HARI  |    2 |
+| Vibek |    2 |
+| HARI  |    1 |
+| RAM   |    1 |
+| Shyam |    1 |
++-------+------+
+6 rows in set (0.005 sec)
+
+MariaDB [seca]> select name , dno from emp where dno=2 intersect select name,dno from emp where dno=1;
+Empty set (0.001 sec)
+
+MariaDB [seca]> select name from emp where dno=2 union select name from emp where dno=1;
++-------+
+| name  |
++-------+
+| Shyam |
+| HARI  |
+| Vibek |
+| RAM   |
++-------+
+4 rows in set (0.000 sec)
+
+MariaDB [seca]> select name from emp where dno=2 intersect select name from emp where dno=1;
++-------+
+| name  |
++-------+
+| Shyam |
+| HARI  |
++-------+
+2 rows in set (0.001 sec)
+
+MariaDB [seca]> select name , dno from emp where dno=1;
++-------+------+
+| name  | dno  |
++-------+------+
+| HARI  |    1 |
+| RAM   |    1 |
+| Shyam |    1 |
++-------+------+
+3 rows in set (0.001 sec)
+
+MariaDB [seca]> select name , dno from emp where dno=2;
++-------+------+
+| name  | dno  |
++-------+------+
+| Shyam |    2 |
+| HARI  |    2 |
+| Vibek |    2 |
++-------+------+
+3 rows in set (0.000 sec)
+
+MariaDB [seca]> select name from emp where dno=1 minus select name from emp where dno=2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'minus select name from emp where dno=2' at line 1
+MariaDB [seca]> select name from emp where dno=1 difference select name from emp where dno=2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'difference select name from emp where dno=2' at line 1
+MariaDB [seca]> select name from emp where dno=1 and name not in (select name from emp where dno=2);
++------+
+| name |
++------+
+| RAM  |
++------+
+1 row in set (0.017 sec)
+
+MariaDB [seca]> select name from emp e1 where dno=1 and name not exists (select name from emp e2 where dno=2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'exists (select name from emp e2 where dno=2)' at line 1
+MariaDB [seca]> select * from emp;
++-----+--------+------------+---------+--------+------+------------+
+| ssn | name   | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+--------+------------+---------+--------+------+------------+
+|   1 | HARI   | 2024-08-09 | 2000.00 |   NULL |    1 |          0 |
+|   2 | RAM    | 2024-08-09 | 1000.00 |      1 |    1 |          0 |
+|   3 | Shyam  | 2024-08-09 | 3000.00 |      2 |    2 |          0 |
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 |    3 |          0 |
+|   5 | Ashok  | 2024-08-09 | 1000.00 |      1 |    5 |          0 |
+|   6 | HARI   | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
+|   7 | Shyam  | 2024-08-12 | 9999.99 |   NULL |    1 |          0 |
+|   8 | Vibek  | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
++-----+--------+------------+---------+--------+------+------------+
+8 rows in set (0.001 sec)
+
+MariaDB [seca]> select * from emp where dno=1 and salary>2000;
++-----+-------+------------+---------+--------+------+------------+
+| ssn | name  | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+-------+------------+---------+--------+------+------------+
+|   7 | Shyam | 2024-08-12 | 9999.99 |   NULL |    1 |          0 |
++-----+-------+------------+---------+--------+------+------------+
+1 row in set (0.001 sec)
+
+MariaDB [seca]> select max(salary) , min(salary) from emp;
++-------------+-------------+
+| max(salary) | min(salary) |
++-------------+-------------+
+|     9999.99 |     1000.00 |
++-------------+-------------+
+1 row in set (0.002 sec)
+
+MariaDB [seca]> select max(salary) , min(salary) from emp where dno=2;
++-------------+-------------+
+| max(salary) | min(salary) |
++-------------+-------------+
+|     9999.99 |     3000.00 |
++-------------+-------------+
+1 row in set (0.000 sec)
+
+MariaDB [seca]> select max(salary) , min(salary) from emp where dno=1;
++-------------+-------------+
+| max(salary) | min(salary) |
++-------------+-------------+
+|     9999.99 |     1000.00 |
++-------------+-------------+
+1 row in set (0.001 sec)
+
+MariaDB [seca]> select * from emp where dno=1 and salary<(select min(salary) from emp where dno=2);
++-----+------+------------+---------+--------+------+------------+
+| ssn | name | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+------+------------+---------+--------+------+------------+
+|   1 | HARI | 2024-08-09 | 2000.00 |   NULL |    1 |          0 |
+|   2 | RAM  | 2024-08-09 | 1000.00 |      1 |    1 |          0 |
++-----+------+------------+---------+--------+------+------------+
+2 rows in set (0.001 sec)
+
+MariaDB [seca]> select * from emp where dno=1 and salary<3000;
++-----+------+------------+---------+--------+------+------------+
+| ssn | name | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+------+------------+---------+--------+------+------------+
+|   1 | HARI | 2024-08-09 | 2000.00 |   NULL |    1 |          0 |
+|   2 | RAM  | 2024-08-09 | 1000.00 |      1 |    1 |          0 |
++-----+------+------------+---------+--------+------+------------+
+2 rows in set (0.001 sec)
+
+MariaDB [seca]> select * from emp;
++-----+--------+------------+---------+--------+------+------------+
+| ssn | name   | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+--------+------------+---------+--------+------+------------+
+|   1 | HARI   | 2024-08-09 | 2000.00 |   NULL |    1 |          0 |
+|   2 | RAM    | 2024-08-09 | 1000.00 |      1 |    1 |          0 |
+|   3 | Shyam  | 2024-08-09 | 3000.00 |      2 |    2 |          0 |
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 |    3 |          0 |
+|   5 | Ashok  | 2024-08-09 | 1000.00 |      1 |    5 |          0 |
+|   6 | HARI   | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
+|   7 | Shyam  | 2024-08-12 | 9999.99 |   NULL |    1 |          0 |
+|   8 | Vibek  | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
++-----+--------+------------+---------+--------+------+------------+
+8 rows in set (0.001 sec)
+
+MariaDB [seca]> select dno,count(*) from emp group by dno;
++------+----------+
+| dno  | count(*) |
++------+----------+
+|    1 |        3 |
+|    2 |        3 |
+|    3 |        1 |
+|    5 |        1 |
++------+----------+
+4 rows in set (0.003 sec)
+
+MariaDB [seca]> select * from emp order by dno;
++-----+--------+------------+---------+--------+------+------------+
+| ssn | name   | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+--------+------------+---------+--------+------+------------+
+|   1 | HARI   | 2024-08-09 | 2000.00 |   NULL |    1 |          0 |
+|   2 | RAM    | 2024-08-09 | 1000.00 |      1 |    1 |          0 |
+|   7 | Shyam  | 2024-08-12 | 9999.99 |   NULL |    1 |          0 |
+|   3 | Shyam  | 2024-08-09 | 3000.00 |      2 |    2 |          0 |
+|   6 | HARI   | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
+|   8 | Vibek  | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 |    3 |          0 |
+|   5 | Ashok  | 2024-08-09 | 1000.00 |      1 |    5 |          0 |
++-----+--------+------------+---------+--------+------+------------+
+8 rows in set (0.001 sec)
+
+MariaDB [seca]> select count(*) from emp group by dno;
++----------+
+| count(*) |
++----------+
+|        3 |
+|        3 |
+|        1 |
+|        1 |
++----------+
+4 rows in set (0.001 sec)
+
+MariaDB [seca]> select dno,count(*),salary from emp group by dno;
++------+----------+---------+
+| dno  | count(*) | salary  |
++------+----------+---------+
+|    1 |        3 | 2000.00 |
+|    2 |        3 | 3000.00 |
+|    3 |        1 | 1000.00 |
+|    5 |        1 | 1000.00 |
++------+----------+---------+
+4 rows in set (0.001 sec)
+
+MariaDB [seca]> select dno,count(*),name from emp group by dno;
++------+----------+--------+
+| dno  | count(*) | name   |
++------+----------+--------+
+|    1 |        3 | HARI   |
+|    2 |        3 | Shyam  |
+|    3 |        1 | Bipana |
+|    5 |        1 | Ashok  |
++------+----------+--------+
+4 rows in set (0.001 sec)
+
+MariaDB [seca]> select dno,count(*),max(salary),average(salary),sum(salary) from emp group by dno;
+ERROR 1305 (42000): FUNCTION seca.average does not exist
+MariaDB [seca]> select dno,count(*),max(salary),avg(salary),sum(salary) from emp group by dno;
++------+----------+-------------+-------------+-------------+
+| dno  | count(*) | max(salary) | avg(salary) | sum(salary) |
++------+----------+-------------+-------------+-------------+
+|    1 |        3 |     9999.99 | 4333.330000 |    12999.99 |
+|    2 |        3 |     9999.99 | 7666.660000 |    22999.98 |
+|    3 |        1 |     1000.00 | 1000.000000 |     1000.00 |
+|    5 |        1 |     1000.00 | 1000.000000 |     1000.00 |
++------+----------+-------------+-------------+-------------+
+4 rows in set (0.011 sec)
+
+MariaDB [seca]> select dno,count(*),max(salary),min(salary),avg(salary),sum(salary) from emp group by dno;
++------+----------+-------------+-------------+-------------+-------------+
+| dno  | count(*) | max(salary) | min(salary) | avg(salary) | sum(salary) |
++------+----------+-------------+-------------+-------------+-------------+
+|    1 |        3 |     9999.99 |     1000.00 | 4333.330000 |    12999.99 |
+|    2 |        3 |     9999.99 |     3000.00 | 7666.660000 |    22999.98 |
+|    3 |        1 |     1000.00 |     1000.00 | 1000.000000 |     1000.00 |
+|    5 |        1 |     1000.00 |     1000.00 | 1000.000000 |     1000.00 |
++------+----------+-------------+-------------+-------------+-------------+
+4 rows in set (0.001 sec)
+
+MariaDB [seca]> select dno,count(*),max(salary),min(salary),avg(salary),sum(salary) from emp group by dno having count(*)>1;
++------+----------+-------------+-------------+-------------+-------------+
+| dno  | count(*) | max(salary) | min(salary) | avg(salary) | sum(salary) |
++------+----------+-------------+-------------+-------------+-------------+
+|    1 |        3 |     9999.99 |     1000.00 | 4333.330000 |    12999.99 |
+|    2 |        3 |     9999.99 |     3000.00 | 7666.660000 |    22999.98 |
++------+----------+-------------+-------------+-------------+-------------+
+2 rows in set (0.001 sec)
+
+MariaDB [seca]> select dno,count(*),max(salary),min(salary),avg(salary),sum(salary) from emp group by dno having avg(salary)>5000;
++------+----------+-------------+-------------+-------------+-------------+
+| dno  | count(*) | max(salary) | min(salary) | avg(salary) | sum(salary) |
++------+----------+-------------+-------------+-------------+-------------+
+|    2 |        3 |     9999.99 |     3000.00 | 7666.660000 |    22999.98 |
++------+----------+-------------+-------------+-------------+-------------+
+1 row in set (0.001 sec)
+
+MariaDB [seca]> select dno,count(*),max(salary),min(salary),avg(salary),sum(salary) from emp group by dno having avg(salary)>5000;
++------+----------+-------------+-------------+-------------+-------------+
+| dno  | count(*) | max(salary) | min(salary) | avg(salary) | sum(salary) |
++------+----------+-------------+-------------+-------------+-------------+
+|    2 |        3 |     9999.99 |     3000.00 | 7666.660000 |    22999.98 |
++------+----------+-------------+-------------+-------------+-------------+
+1 row in set (0.001 sec)
+
+MariaDB [seca]> select * from emp;
++-----+--------+------------+---------+--------+------+------------+
+| ssn | name   | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+--------+------------+---------+--------+------+------------+
+|   1 | HARI   | 2024-08-09 | 2000.00 |   NULL |    1 |          0 |
+|   2 | RAM    | 2024-08-09 | 1000.00 |      1 |    1 |          0 |
+|   3 | Shyam  | 2024-08-09 | 3000.00 |      2 |    2 |          0 |
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 |    3 |          0 |
+|   5 | Ashok  | 2024-08-09 | 1000.00 |      1 |    5 |          0 |
+|   6 | HARI   | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
+|   7 | Shyam  | 2024-08-12 | 9999.99 |   NULL |    1 |          0 |
+|   8 | Vibek  | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
++-----+--------+------------+---------+--------+------+------------+
+8 rows in set (0.000 sec)
+
+MariaDB [seca]> select * from emp where hire_date >'2024-08-09';
++-----+-------+------------+---------+--------+------+------------+
+| ssn | name  | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+-------+------------+---------+--------+------+------------+
+|   6 | HARI  | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
+|   7 | Shyam | 2024-08-12 | 9999.99 |   NULL |    1 |          0 |
+|   8 | Vibek | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
++-----+-------+------------+---------+--------+------+------------+
+3 rows in set (0.011 sec)
+
+MariaDB [seca]> select * from emp where name like 'B%';
++-----+--------+------------+---------+--------+------+------------+
+| ssn | name   | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+--------+------------+---------+--------+------+------------+
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 |    3 |          0 |
++-----+--------+------------+---------+--------+------+------------+
+1 row in set (0.012 sec)
+
+MariaDB [seca]> select * from emp where name like '%a%';
++-----+--------+------------+---------+--------+------+------------+
+| ssn | name   | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+--------+------------+---------+--------+------+------------+
+|   1 | HARI   | 2024-08-09 | 2000.00 |   NULL |    1 |          0 |
+|   2 | RAM    | 2024-08-09 | 1000.00 |      1 |    1 |          0 |
+|   3 | Shyam  | 2024-08-09 | 3000.00 |      2 |    2 |          0 |
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 |    3 |          0 |
+|   5 | Ashok  | 2024-08-09 | 1000.00 |      1 |    5 |          0 |
+|   6 | HARI   | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
+|   7 | Shyam  | 2024-08-12 | 9999.99 |   NULL |    1 |          0 |
++-----+--------+------------+---------+--------+------+------------+
+7 rows in set (0.000 sec)
+
+MariaDB [seca]> select * from emp where name like '%o%';
++-----+-------+------------+---------+--------+------+------------+
+| ssn | name  | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+-------+------------+---------+--------+------+------------+
+|   5 | Ashok | 2024-08-09 | 1000.00 |      1 |    5 |          0 |
++-----+-------+------------+---------+--------+------+------------+
+1 row in set (0.000 sec)
+
+MariaDB [seca]> select * from emp where name like '-a-';
+Empty set (0.001 sec)
+
+MariaDB [seca]> select * from emp where name like '_a_';
++-----+------+------------+---------+--------+------+------------+
+| ssn | name | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+------+------------+---------+--------+------+------------+
+|   2 | RAM  | 2024-08-09 | 1000.00 |      1 |    1 |          0 |
++-----+------+------------+---------+--------+------+------------+
+1 row in set (0.001 sec)
+
+MariaDB [seca]> select * from emp;
++-----+--------+------------+---------+--------+------+------------+
+| ssn | name   | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+--------+------------+---------+--------+------+------------+
+|   1 | HARI   | 2024-08-09 | 2000.00 |   NULL |    1 |          0 |
+|   2 | RAM    | 2024-08-09 | 1000.00 |      1 |    1 |          0 |
+|   3 | Shyam  | 2024-08-09 | 3000.00 |      2 |    2 |          0 |
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 |    3 |          0 |
+|   5 | Ashok  | 2024-08-09 | 1000.00 |      1 |    5 |          0 |
+|   6 | HARI   | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
+|   7 | Shyam  | 2024-08-12 | 9999.99 |   NULL |    1 |          0 |
+|   8 | Vibek  | 2024-08-12 | 9999.99 |   NULL |    2 |          0 |
++-----+--------+------------+---------+--------+------+------------+
+8 rows in set (0.000 sec)
+
+MariaDB [seca]> select name,dno,salary,salary*1.1 Incremented_salary from emp where dno=1;
++-------+------+---------+--------------------+
+| name  | dno  | salary  | Incremented_salary |
++-------+------+---------+--------------------+
+| HARI  |    1 | 2000.00 |           2200.000 |
+| RAM   |    1 | 1000.00 |           1100.000 |
+| Shyam |    1 | 9999.99 |          10999.989 |
++-------+------+---------+--------------------+
+3 rows in set (0.012 sec)
+
+MariaDB [seca]> select name,dno,salary,salary*.1 bonus from emp where dno=1;
++-------+------+---------+---------+
+| name  | dno  | salary  | bonus   |
++-------+------+---------+---------+
+| HARI  |    1 | 2000.00 | 200.000 |
+| RAM   |    1 | 1000.00 | 100.000 |
+| Shyam |    1 | 9999.99 | 999.999 |
++-------+------+---------+---------+
+3 rows in set (0.001 sec)
+
+MariaDB [seca]> select name,dno,salary,salary*.1 bonus from emp where dno=1 order by bonus desc;
++-------+------+---------+---------+
+| name  | dno  | salary  | bonus   |
++-------+------+---------+---------+
+| Shyam |    1 | 9999.99 | 999.999 |
+| HARI  |    1 | 2000.00 | 200.000 |
+| RAM   |    1 | 1000.00 | 100.000 |
++-------+------+---------+---------+
+3 rows in set (0.000 sec)
+
+MariaDB [seca]> create table emp_bonus as select name,dno,salary,salary*.1 bonus from emp where dno=1 order by bonus desc;
+Query OK, 3 rows affected (0.032 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [seca]> select * from emp_bonus;
++-------+------+---------+---------+
+| name  | dno  | salary  | bonus   |
++-------+------+---------+---------+
+| Shyam |    1 | 9999.99 | 999.999 |
+| HARI  |    1 | 2000.00 | 200.000 |
+| RAM   |    1 | 1000.00 | 100.000 |
++-------+------+---------+---------+
+3 rows in set (0.000 sec)
+
+MariaDB [seca]> desc emp_bonus;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| name   | varchar(20)  | NO   |     | NULL    |       |
+| dno    | int(11)      | YES  |     | NULL    |       |
+| salary | decimal(6,2) | YES  |     | NULL    |       |
+| bonus  | decimal(7,3) | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.014 sec)
+
+MariaDB [seca]> truncate table emp_bonus;
+Query OK, 0 rows affected (0.017 sec)
+
+MariaDB [seca]> desc emp_bonus;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| name   | varchar(20)  | NO   |     | NULL    |       |
+| dno    | int(11)      | YES  |     | NULL    |       |
+| salary | decimal(6,2) | YES  |     | NULL    |       |
+| bonus  | decimal(7,3) | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.016 sec)
+
+MariaDB [seca]> select * from emp_bonus;
+Empty set (0.000 sec)
+
+MariaDB [seca]> select name,dno,salary,salary*.1 bonus from emp where dno=1 order by bonus desc;
++-------+------+---------+---------+
+| name  | dno  | salary  | bonus   |
++-------+------+---------+---------+
+| Shyam |    1 | 9999.99 | 999.999 |
+| HARI  |    1 | 2000.00 | 200.000 |
+| RAM   |    1 | 1000.00 | 100.000 |
++-------+------+---------+---------+
+3 rows in set (0.000 sec)
+
+MariaDB [seca]> insert into emp_bonus select name,dno,salary,salary*.1 bonus from emp where dno=1 order by bonus desc;
+Query OK, 3 rows affected (0.003 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [seca]> select * from emp_bonus;
++-------+------+---------+---------+
+| name  | dno  | salary  | bonus   |
++-------+------+---------+---------+
+| Shyam |    1 | 9999.99 | 999.999 |
+| HARI  |    1 | 2000.00 | 200.000 |
+| RAM   |    1 | 1000.00 | 100.000 |
++-------+------+---------+---------+
+3 rows in set (0.000 sec)
+
+MariaDB [seca]>

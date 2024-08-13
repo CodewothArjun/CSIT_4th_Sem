@@ -1,0 +1,317 @@
+
+Setting environment for using XAMPP for Windows.
+yogaraj.joshi@YOGACDSC c:\xampp
+# mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 18
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| dbms_lab           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| seca               |
+| secb               |
+| test               |
++--------------------+
+9 rows in set (0.007 sec)
+
+MariaDB [(none)]> use seca;
+Database changed
+MariaDB [seca]> show tables;
++----------------+
+| Tables_in_seca |
++----------------+
+| department     |
+| student        |
++----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [seca]> create table emp (ssn int primary key, name varchar(20) not null, hire_date date default sysdate, mgrssn int, dno int);
+ERROR 1054 (42S22): Unknown column 'sysdate' in 'DEFAULT'
+MariaDB [seca]> create table emp (ssn int primary key, name varchar(20) not null, hire_date date, salary number(6,2), mgrssn int, dno int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(6,2), mgrssn int, dno int)' at line 1
+MariaDB [seca]> create table emp (ssn int primary key, name varchar(20) not null, hire_date date, salary decimal(6,2), mgrssn int, dno int);
+Query OK, 0 rows affected (0.025 sec)
+
+MariaDB [seca]> desc emp;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| ssn       | int(11)      | NO   | PRI | NULL    |       |
+| name      | varchar(20)  | NO   |     | NULL    |       |
+| hire_date | date         | YES  |     | NULL    |       |
+| salary    | decimal(6,2) | YES  |     | NULL    |       |
+| mgrssn    | int(11)      | YES  |     | NULL    |       |
+| dno       | int(11)      | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+6 rows in set (0.024 sec)
+
+MariaDB [seca]> alter table emp add constraint chk_sal check(salary>=1000);
+Query OK, 0 rows affected (0.045 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [seca]> desc emp;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| ssn       | int(11)      | NO   | PRI | NULL    |       |
+| name      | varchar(20)  | NO   |     | NULL    |       |
+| hire_date | date         | YES  |     | NULL    |       |
+| salary    | decimal(6,2) | YES  |     | NULL    |       |
+| mgrssn    | int(11)      | YES  |     | NULL    |       |
+| dno       | int(11)      | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+6 rows in set (0.018 sec)
+
+MariaDB [seca]> alter table emp add is_retired boolean default 0;
+Query OK, 0 rows affected (0.009 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [seca]> desc emp;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| ssn        | int(11)      | NO   | PRI | NULL    |       |
+| name       | varchar(20)  | NO   |     | NULL    |       |
+| hire_date  | date         | YES  |     | NULL    |       |
+| salary     | decimal(6,2) | YES  |     | NULL    |       |
+| mgrssn     | int(11)      | YES  |     | NULL    |       |
+| dno        | int(11)      | YES  |     | NULL    |       |
+| is_retired | tinyint(1)   | YES  |     | 0       |       |
++------------+--------------+------+-----+---------+-------+
+7 rows in set (0.008 sec)
+
+MariaDB [seca]> alter table emp alter column is_retired set default FALSE;
+Query OK, 0 rows affected (0.013 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [seca]> desc emp;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| ssn        | int(11)      | NO   | PRI | NULL    |       |
+| name       | varchar(20)  | NO   |     | NULL    |       |
+| hire_date  | date         | YES  |     | NULL    |       |
+| salary     | decimal(6,2) | YES  |     | NULL    |       |
+| mgrssn     | int(11)      | YES  |     | NULL    |       |
+| dno        | int(11)      | YES  |     | NULL    |       |
+| is_retired | tinyint(1)   | YES  |     | 0       |       |
++------------+--------------+------+-----+---------+-------+
+7 rows in set (0.017 sec)
+
+MariaDB [seca]> insert into emp values (1,'Bivek','2020-01-05',3000.45,null,1,FALSE);
+Query OK, 1 row affected (0.021 sec)
+
+MariaDB [seca]> select * from emp;
++-----+-------+------------+---------+--------+------+------------+
+| ssn | name  | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+-------+------------+---------+--------+------+------------+
+|   1 | Bivek | 2020-01-05 | 3000.45 |   NULL |    1 |          0 |
++-----+-------+------------+---------+--------+------+------------+
+1 row in set (0.011 sec)
+
+MariaDB [seca]> alter table emp alter column ssn auto_increment;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'auto_increment' at line 1
+MariaDB [seca]> alter table emp alter column ssn int auto_increment;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'int auto_increment' at line 1
+MariaDB [seca]> alter table emp alter column ssn int primary key auto_increment;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'int primary key auto_increment' at line 1
+MariaDB [seca]> alter table emp alter column ssn unsigned not null auto_increment primary key;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'unsigned not null auto_increment primary key' at line 1
+MariaDB [seca]> alter table emp alter column ssn unsigned not null AUTO_INCREMENT primary key;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'unsigned not null AUTO_INCREMENT primary key' at line 1
+MariaDB [seca]> clear screen
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'clear screen' at line 1
+MariaDB [seca]> cls;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'cls' at line 1
+MariaDB [seca]> desc emp;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| ssn        | int(11)      | NO   | PRI | NULL    |       |
+| name       | varchar(20)  | NO   |     | NULL    |       |
+| hire_date  | date         | YES  |     | NULL    |       |
+| salary     | decimal(6,2) | YES  |     | NULL    |       |
+| mgrssn     | int(11)      | YES  |     | NULL    |       |
+| dno        | int(11)      | YES  |     | NULL    |       |
+| is_retired | tinyint(1)   | YES  |     | 0       |       |
++------------+--------------+------+-----+---------+-------+
+7 rows in set (0.017 sec)
+
+MariaDB [seca]> select * from emp;
++-----+-------+------------+---------+--------+------+------------+
+| ssn | name  | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+-------+------------+---------+--------+------+------------+
+|   1 | Bivek | 2020-01-05 | 3000.45 |   NULL |    1 |          0 |
++-----+-------+------------+---------+--------+------+------------+
+1 row in set (0.000 sec)
+
+MariaDB [seca]> alter table emp alter column hire_date set default sysdate;
+ERROR 1054 (42S22): Unknown column 'sysdate' in 'DEFAULT'
+MariaDB [seca]> alter table emp alter column hire_date set default current_timestamp;
+Query OK, 0 rows affected (0.015 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [seca]> desc emp;
++------------+--------------+------+-----+---------------------+-------+
+| Field      | Type         | Null | Key | Default             | Extra |
++------------+--------------+------+-----+---------------------+-------+
+| ssn        | int(11)      | NO   | PRI | NULL                |       |
+| name       | varchar(20)  | NO   |     | NULL                |       |
+| hire_date  | date         | YES  |     | current_timestamp() |       |
+| salary     | decimal(6,2) | YES  |     | NULL                |       |
+| mgrssn     | int(11)      | YES  |     | NULL                |       |
+| dno        | int(11)      | YES  |     | NULL                |       |
+| is_retired | tinyint(1)   | YES  |     | 0                   |       |
++------------+--------------+------+-----+---------------------+-------+
+7 rows in set (0.019 sec)
+
+MariaDB [seca]> insert into emp(ssn,name,salary) values (2,'HARI',2000);
+Query OK, 1 row affected, 1 warning (0.013 sec)
+
+MariaDB [seca]> select * from emp;
++-----+-------+------------+---------+--------+------+------------+
+| ssn | name  | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+-------+------------+---------+--------+------+------------+
+|   1 | Bivek | 2020-01-05 | 3000.45 |   NULL |    1 |          0 |
+|   2 | HARI  | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |
++-----+-------+------------+---------+--------+------+------------+
+2 rows in set (0.000 sec)
+
+MariaDB [seca]> truncate table emp;
+Query OK, 0 rows affected (0.023 sec)
+
+MariaDB [seca]> select * from emp;
+Empty set (0.002 sec)
+
+MariaDB [seca]> alter table emp add constraint fk_mgr_emp foreign key(mgrssn) references emp(ssn);
+Query OK, 0 rows affected (0.044 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [seca]> insert into emp(ssn,name,salary) values (1,'HARI',2000);
+Query OK, 1 row affected, 1 warning (0.013 sec)
+
+MariaDB [seca]> select * from emp;
++-----+------+------------+---------+--------+------+------------+
+| ssn | name | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+------+------------+---------+--------+------+------------+
+|   1 | HARI | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |
++-----+------+------------+---------+--------+------+------------+
+1 row in set (0.000 sec)
+
+MariaDB [seca]> insert into emp(ssn,name,salary,mgrssn) values (2,'HARI',300,1);
+ERROR 4025 (23000): CONSTRAINT `chk_sal` failed for `seca`.`emp`
+MariaDB [seca]> insert into emp(ssn,name,salary,mgrssn) values (2,'HARI',1000,1);
+Query OK, 1 row affected, 1 warning (0.012 sec)
+
+MariaDB [seca]> select * from emp;
++-----+------+------------+---------+--------+------+------------+
+| ssn | name | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+------+------------+---------+--------+------+------------+
+|   1 | HARI | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |
+|   2 | HARI | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
++-----+------+------------+---------+--------+------+------------+
+2 rows in set (0.000 sec)
+
+MariaDB [seca]> update emp set name='RAM' where ssn=2;
+Query OK, 1 row affected (0.016 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [seca]> select * from emp;
++-----+------+------------+---------+--------+------+------------+
+| ssn | name | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+------+------------+---------+--------+------+------------+
+|   1 | HARI | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |
+|   2 | RAM  | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
++-----+------+------------+---------+--------+------+------------+
+2 rows in set (0.001 sec)
+
+MariaDB [seca]> insert into emp(ssn,name,salary,mgrssn) values (3,'Shyam',3000,2);
+Query OK, 1 row affected, 1 warning (0.002 sec)
+
+MariaDB [seca]> insert into emp(ssn,name,salary,mgrssn) values (4,'Bipana',1000,1);
+Query OK, 1 row affected, 1 warning (0.012 sec)
+
+MariaDB [seca]> select * from emp;
++-----+--------+------------+---------+--------+------+------------+
+| ssn | name   | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+--------+------------+---------+--------+------+------------+
+|   1 | HARI   | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |
+|   2 | RAM    | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
+|   3 | Shyam  | 2024-08-09 | 3000.00 |      2 | NULL |          0 |
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
++-----+--------+------------+---------+--------+------+------------+
+4 rows in set (0.000 sec)
+
+MariaDB [seca]> select * frmo emp e1 e2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'frmo emp e1 e2' at line 1
+MariaDB [seca]> select * frmo emp e1 , emp e2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'frmo emp e1 , emp e2' at line 1
+MariaDB [seca]> select * from emp e1 , emp e2;
++-----+--------+------------+---------+--------+------+------------+-----+--------+------------+---------+--------+------+------------+
+| ssn | name   | hire_date  | salary  | mgrssn | dno  | is_retired | ssn | name   | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+--------+------------+---------+--------+------+------------+-----+--------+------------+---------+--------+------+------------+
+|   1 | HARI   | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |   1 | HARI   | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |
+|   2 | RAM    | 2024-08-09 | 1000.00 |      1 | NULL |          0 |   1 | HARI   | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |
+|   3 | Shyam  | 2024-08-09 | 3000.00 |      2 | NULL |          0 |   1 | HARI   | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 | NULL |          0 |   1 | HARI   | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |
+|   1 | HARI   | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |   2 | RAM    | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
+|   2 | RAM    | 2024-08-09 | 1000.00 |      1 | NULL |          0 |   2 | RAM    | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
+|   3 | Shyam  | 2024-08-09 | 3000.00 |      2 | NULL |          0 |   2 | RAM    | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 | NULL |          0 |   2 | RAM    | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
+|   1 | HARI   | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |   3 | Shyam  | 2024-08-09 | 3000.00 |      2 | NULL |          0 |
+|   2 | RAM    | 2024-08-09 | 1000.00 |      1 | NULL |          0 |   3 | Shyam  | 2024-08-09 | 3000.00 |      2 | NULL |          0 |
+|   3 | Shyam  | 2024-08-09 | 3000.00 |      2 | NULL |          0 |   3 | Shyam  | 2024-08-09 | 3000.00 |      2 | NULL |          0 |
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 | NULL |          0 |   3 | Shyam  | 2024-08-09 | 3000.00 |      2 | NULL |          0 |
+|   1 | HARI   | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |   4 | Bipana | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
+|   2 | RAM    | 2024-08-09 | 1000.00 |      1 | NULL |          0 |   4 | Bipana | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
+|   3 | Shyam  | 2024-08-09 | 3000.00 |      2 | NULL |          0 |   4 | Bipana | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 | NULL |          0 |   4 | Bipana | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
++-----+--------+------------+---------+--------+------+------------+-----+--------+------------+---------+--------+------+------------+
+16 rows in set (0.001 sec)
+
+MariaDB [seca]> select * from emp e1 , emp e2 where e2.mgrssn=e1.ssn;
++-----+------+------------+---------+--------+------+------------+-----+--------+------------+---------+--------+------+------------+
+| ssn | name | hire_date  | salary  | mgrssn | dno  | is_retired | ssn | name   | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+------+------------+---------+--------+------+------------+-----+--------+------------+---------+--------+------+------------+
+|   1 | HARI | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |   2 | RAM    | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
+|   2 | RAM  | 2024-08-09 | 1000.00 |      1 | NULL |          0 |   3 | Shyam  | 2024-08-09 | 3000.00 |      2 | NULL |          0 |
+|   1 | HARI | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |   4 | Bipana | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
++-----+------+------------+---------+--------+------+------------+-----+--------+------------+---------+--------+------+------------+
+3 rows in set (0.012 sec)
+
+MariaDB [seca]> select e2.ssn,e2.name, e1.name manager from emp e1 , emp e2 where e2.mgrssn=e1.ssn;
++-----+--------+---------+
+| ssn | name   | manager |
++-----+--------+---------+
+|   2 | RAM    | HARI    |
+|   3 | Shyam  | RAM     |
+|   4 | Bipana | HARI    |
++-----+--------+---------+
+3 rows in set (0.001 sec)
+
+MariaDB [seca]> select * from emp;
++-----+--------+------------+---------+--------+------+------------+
+| ssn | name   | hire_date  | salary  | mgrssn | dno  | is_retired |
++-----+--------+------------+---------+--------+------+------------+
+|   1 | HARI   | 2024-08-09 | 2000.00 |   NULL | NULL |          0 |
+|   2 | RAM    | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
+|   3 | Shyam  | 2024-08-09 | 3000.00 |      2 | NULL |          0 |
+|   4 | Bipana | 2024-08-09 | 1000.00 |      1 | NULL |          0 |
++-----+--------+------------+---------+--------+------+------------+
+4 rows in set (0.000 sec)
+
+MariaDB [seca]>

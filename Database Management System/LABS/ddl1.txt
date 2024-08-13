@@ -1,0 +1,339 @@
+
+Setting environment for using XAMPP for Windows.
+yogaraj.joshi@YOGACDSC c:\xampp
+# mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 11
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show database;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'database' at line 1
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| dbms_lab           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| seca               |
+| secb               |
+| test               |
++--------------------+
+9 rows in set (0.014 sec)
+
+MariaDB [(none)]> use seca
+Database changed
+MariaDB [seca]> show tables
+    -> ;
++----------------+
+| Tables_in_seca |
++----------------+
+| student        |
++----------------+
+1 row in set (0.001 sec)
+
+MariaDB [seca]> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| id      | int(11)     | YES  |     | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| address | varchar(20) | NO   |     | NULL    |       |
+| age     | int(11)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.022 sec)
+
+MariaDB [seca]> drop table student;
+Query OK, 0 rows affected (0.029 sec)
+
+MariaDB [seca]> show tables;
+Empty set (0.001 sec)
+
+MariaDB [seca]> create table student (roll int, name varchar(20) primary key (roll));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(roll))' at line 1
+MariaDB [seca]> create table student (roll int primary key, name varchar(20));
+Query OK, 0 rows affected (0.028 sec)
+
+MariaDB [seca]> desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| roll  | int(11)     | NO   | PRI | NULL    |       |
+| name  | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.016 sec)
+
+MariaDB [seca]> create table department (id int, name varchar(20) not null);
+Query OK, 0 rows affected (0.021 sec)
+
+MariaDB [seca]> desc department;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | YES  |     | NULL    |       |
+| name  | varchar(20) | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.015 sec)
+
+MariaDB [seca]> alter table department add primary key (id);
+Query OK, 0 rows affected (0.038 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [seca]> desc department;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | NO   | PRI | NULL    |       |
+| name  | varchar(20) | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.015 sec)
+
+MariaDB [seca]> desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| roll  | int(11)     | NO   | PRI | NULL    |       |
+| name  | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.017 sec)
+
+MariaDB [seca]> alter table student add dept_id int;
+Query OK, 0 rows affected (0.017 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [seca]> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| roll    | int(11)     | NO   | PRI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| dept_id | int(11)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.017 sec)
+
+MariaDB [seca]> alter table student add constraint fk_std_dept foreign key(dept_id) references department(id);
+Query OK, 0 rows affected (0.050 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [seca]> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| roll    | int(11)     | NO   | PRI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| dept_id | int(11)     | YES  | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.016 sec)
+
+MariaDB [seca]> insert into student values(1,'RAM',1);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`seca`.`student`, CONSTRAINT `fk_std_dept` FOREIGN KEY (`dept_id`) REFERENCES `department` (`id`))
+MariaDB [seca]> insert into department values (1,'IT');
+Query OK, 1 row affected (0.012 sec)
+
+MariaDB [seca]> select * from department;
++----+------+
+| id | name |
++----+------+
+|  1 | IT   |
++----+------+
+1 row in set (0.011 sec)
+
+MariaDB [seca]> select name from department;
++------+
+| name |
++------+
+| IT   |
++------+
+1 row in set (0.000 sec)
+
+MariaDB [seca]> insert into student values(1,'RAM',1);
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [seca]> select * from student;
++------+------+---------+
+| roll | name | dept_id |
++------+------+---------+
+|    1 | RAM  |       1 |
++------+------+---------+
+1 row in set (0.001 sec)
+
+MariaDB [seca]> insert into student values(1,'HARI',1);
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+MariaDB [seca]> insert into student values(2,'HARI',1);
+Query OK, 1 row affected (0.013 sec)
+
+MariaDB [seca]> select * from student;
++------+------+---------+
+| roll | name | dept_id |
++------+------+---------+
+|    1 | RAM  |       1 |
+|    2 | HARI |       1 |
++------+------+---------+
+2 rows in set (0.000 sec)
+
+MariaDB [seca]> insert into student values(3,'RAM',2);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`seca`.`student`, CONSTRAINT `fk_std_dept` FOREIGN KEY (`dept_id`) REFERENCES `department` (`id`))
+MariaDB [seca]> insert into department values (2,'HR');
+Query OK, 1 row affected (0.012 sec)
+
+MariaDB [seca]> insert into student values(3,'shyam',2);
+Query OK, 1 row affected (0.013 sec)
+
+MariaDB [seca]> select * from student;
++------+-------+---------+
+| roll | name  | dept_id |
++------+-------+---------+
+|    1 | RAM   |       1 |
+|    2 | HARI  |       1 |
+|    3 | shyam |       2 |
++------+-------+---------+
+3 rows in set (0.000 sec)
+
+MariaDB [seca]> select * from department;
++----+------+
+| id | name |
++----+------+
+|  1 | IT   |
+|  2 | HR   |
++----+------+
+2 rows in set (0.000 sec)
+
+MariaDB [seca]> update department set id=3 where name='HR';
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`seca`.`student`, CONSTRAINT `fk_std_dept` FOREIGN KEY (`dept_id`) REFERENCES `department` (`id`))
+MariaDB [seca]> delete from department where id=2;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`seca`.`student`, CONSTRAINT `fk_std_dept` FOREIGN KEY (`dept_id`) REFERENCES `department` (`id`))
+MariaDB [seca]> desc information_schema;
+ERROR 1146 (42S02): Table 'seca.information_schema' doesn't exist
+MariaDB [seca]> desc information_schema.constraint_name;
+ERROR 1109 (42S02): Unknown table 'constraint_name' in information_schema
+MariaDB [seca]> desc information_schema.check_constraint;
+ERROR 1109 (42S02): Unknown table 'check_constraint' in information_schema
+MariaDB [seca]> desc information_schema.check_constraints;
++--------------------+--------------+------+-----+---------+-------+
+| Field              | Type         | Null | Key | Default | Extra |
++--------------------+--------------+------+-----+---------+-------+
+| CONSTRAINT_CATALOG | varchar(512) | NO   |     | NULL    |       |
+| CONSTRAINT_SCHEMA  | varchar(64)  | NO   |     | NULL    |       |
+| TABLE_NAME         | varchar(64)  | NO   |     | NULL    |       |
+| CONSTRAINT_NAME    | varchar(64)  | NO   |     | NULL    |       |
+| CHECK_CLAUSE       | longtext     | NO   |     | NULL    |       |
++--------------------+--------------+------+-----+---------+-------+
+5 rows in set (0.017 sec)
+
+MariaDB [seca]> select * from information_schema.check_constraints where table_name='STUDENT';
+Empty set (0.028 sec)
+
+MariaDB [seca]> select * from information_schema.check_constraints where table_name='student';
+Empty set (0.016 sec)
+
+MariaDB [seca]> select * from information_schema.check_constraints where upper(table_name) like upperr('student');
+ERROR 1305 (42000): FUNCTION seca.upperr does not exist
+MariaDB [seca]> alter table student drop constraint fk_std_dept;
+Query OK, 0 rows affected (0.006 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [seca]> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| roll    | int(11)     | NO   | PRI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| dept_id | int(11)     | YES  | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.015 sec)
+
+MariaDB [seca]> delete from department where id=2;
+Query OK, 1 row affected (0.011 sec)
+
+MariaDB [seca]> select * from department;
++----+------+
+| id | name |
++----+------+
+|  1 | IT   |
++----+------+
+1 row in set (0.000 sec)
+
+MariaDB [seca]> insert into department values(1,'HR');
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+MariaDB [seca]> insert into department values(2,'HR');
+Query OK, 1 row affected (0.011 sec)
+
+MariaDB [seca]> select * from department;
++----+------+
+| id | name |
++----+------+
+|  1 | IT   |
+|  2 | HR   |
++----+------+
+2 rows in set (0.000 sec)
+
+MariaDB [seca]> alter table student add constraint fk_std_dept foreign key(dept_id) references department(id) on delete set null on update cascade;
+Query OK, 3 rows affected (0.042 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [seca]> select * from student;
++------+-------+---------+
+| roll | name  | dept_id |
++------+-------+---------+
+|    1 | RAM   |       1 |
+|    2 | HARI  |       1 |
+|    3 | shyam |       2 |
++------+-------+---------+
+3 rows in set (0.001 sec)
+
+MariaDB [seca]> update department set id=3 where name='HR';
+Query OK, 1 row affected (0.012 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [seca]> select * from student;
++------+-------+---------+
+| roll | name  | dept_id |
++------+-------+---------+
+|    1 | RAM   |       1 |
+|    2 | HARI  |       1 |
+|    3 | shyam |       3 |
++------+-------+---------+
+3 rows in set (0.000 sec)
+
+MariaDB [seca]> select * from department;
++----+------+
+| id | name |
++----+------+
+|  1 | IT   |
+|  3 | HR   |
++----+------+
+2 rows in set (0.001 sec)
+
+MariaDB [seca]>
+MariaDB [seca]> delete from department where id=2;
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [seca]> delete from department where id=3;
+Query OK, 1 row affected (0.011 sec)
+
+MariaDB [seca]> select * from department;
++----+------+
+| id | name |
++----+------+
+|  1 | IT   |
++----+------+
+1 row in set (0.000 sec)
+
+MariaDB [seca]> select * from student;
++------+-------+---------+
+| roll | name  | dept_id |
++------+-------+---------+
+|    1 | RAM   |       1 |
+|    2 | HARI  |       1 |
+|    3 | shyam |    NULL |
++------+-------+---------+
+3 rows in set (0.000 sec)
+
+MariaDB [seca]>
