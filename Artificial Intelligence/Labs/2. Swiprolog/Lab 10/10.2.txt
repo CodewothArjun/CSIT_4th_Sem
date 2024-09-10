@@ -1,0 +1,7 @@
+Step to call SWI-prolog in Visual C++
+=> Install header files and libraries.
+* Let SWI_PROLOG and VC denote the directories of the SWI_PROLOG and Visual C++
+* Copy the header files in SWI_PROLOG\Include to VC\include.
+* Copy the library files in SWI_PROLOG\Lib to VC\Lib
+=> Include the header file SWI-CPP.h in your C++ prolog.
+=> Add lib pl lib to your project.
