@@ -14,7 +14,6 @@ def uniform_cost_search(start, goal, graph):
     closed_list = set()
     
     start_node = Node(start, 0)
-    goal_node = Node(goal)
     heapq.heappush(open_list, start_node)
     
     while open_list:
@@ -26,14 +25,15 @@ def uniform_cost_search(start, goal, graph):
 
         closed_list.add(current_position)
 
-        if current_position == goal_node.position:
+        if current_position == goal:
             path = []
+            total_cost = current_node.cost
             while current_node:
                 path.append(current_node.position)
                 current_node = current_node.parent
-            return path[::-1], current_node.cost
+            return path[::-1], total_cost
 
-        for neighbor, cost in graph[current_position].items():
+        for neighbor, cost in graph.get(current_position, {}).items():
             if neighbor in closed_list:
                 continue
 
