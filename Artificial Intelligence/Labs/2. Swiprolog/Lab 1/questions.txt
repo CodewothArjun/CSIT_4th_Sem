@@ -1,0 +1,2 @@
+Write the program to find the family relation.
+Write the program to find the medical diagnosis.

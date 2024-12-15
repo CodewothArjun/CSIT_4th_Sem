@@ -1,0 +1,8 @@
+greatest(X,A,B,C)
+A>B,A>C,
+X is A.
+greatest(X,A,B,C)
+B>C,B>A,
+X is B.
+greatest(X,A,B,C)
+X is C.
